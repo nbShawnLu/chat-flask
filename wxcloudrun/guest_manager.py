@@ -7,42 +7,28 @@ logger = logging.getLogger(__name__)
 
 
 class GuestManager:
-    """宾客信息管理：读取Excel中的姓名和桌号，提供查询功能"""
+    """宾客信息管理：读取JSON中的姓名和桌号，提供查询功能"""
 
-    def __init__(self, excel_path: str = None):
+    def __init__(self, json_path: str = None):
         self.guest_dict = {}  # {姓名: 桌号}
-        self._load_guests(excel_path)
+        self._load_guests(json_path)
 
-    def _load_guests(self, excel_path: str = None):
-        """从Excel文件加载宾客信息"""
+    def _load_guests(self, json_path: str = None):
+        """从JSON文件加载宾客信息"""
         try:
-            import pandas as pd
-            
-            # 默认路径：项目根目录下的Excel文件
-            if excel_path is None:
-                excel_path = os.path.join(
-                    os.path.dirname(os.path.dirname(__file__)),
-                    "2026.05.16_陆啸.xlsx"
+            # 默认路径：wxcloudrun目录下的guest_data.json
+            if json_path is None:
+                json_path = os.path.join(
+                    os.path.dirname(__file__),
+                    "guest_data.json"
                 )
             
-            if not Path(excel_path).exists():
-                logger.warning(f"宾客Excel文件不存在: {excel_path}")
+            if not Path(json_path).exists():
+                logger.warning(f"宾客JSON文件不存在: {json_path}")
                 return
             
-            df = pd.read_excel(excel_path)
-            
-            # 遍历每一行，建立姓名到桌号的映射
-            for _, row in df.iterrows():
-                name = row.get("姓名")
-                table = row.get("桌号")
-                
-                if pd.notna(name) and pd.notna(table):
-                    # 处理多人情况（如"毛裕谷，陈群"）
-                    names = str(name).replace("，", ",").replace("、", ",").replace("夫妻", "").strip()
-                    for n in names.split(","):
-                        n = n.strip()
-                        if n:
-                            self.guest_dict[n] = int(table)
+            with open(json_path, 'r', encoding='utf-8') as f:
+                self.guest_dict = json.load(f)
             
             logger.info(f"成功加载 {len(self.guest_dict)} 位宾客信息")
             
@@ -62,9 +48,14 @@ class GuestManager:
         if not message:
             return None
         
-        # 遍历所有宾客姓名，检查是否包含在消息中
+        # 精确匹配优先（消息内容完全等于姓名）
+        message_stripped = message.strip()
+        if message_stripped in self.guest_dict:
+            return {"name": message_stripped, "table": self.guest_dict[message_stripped]}
+        
+        # 遍历所有宾客姓名，检查是否包含在消息中（名字一般不超过3个字）
         for name, table in self.guest_dict.items():
-            if name in message:
+            if len(name) <= 4 and name in message:  # 最多4个字的名字（含复姓）
                 return {"name": name, "table": table}
         
         return None
