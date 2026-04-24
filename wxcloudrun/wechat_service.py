@@ -106,7 +106,8 @@ class WechatService:
         
         # 检查用户消息是否包含位置相关关键词
         if any(keyword in content for keyword in location_keywords):
-            return """📍 杭州黄龙饭店 地址: 西湖区曙光路120号
+            return """杭州黄龙饭店 1楼水晶宫 
+📍 地址: 西湖区曙光路120号
 🚇 地铁: 3号线黄龙洞站A2口,步行约1分钟
 🚌 公交: 浙大附中站(16/28/82/87/89路等)
 🚗 自驾: 导航"杭州黄龙饭店",酒店配有停车场
