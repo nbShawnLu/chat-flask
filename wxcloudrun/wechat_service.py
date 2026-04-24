@@ -1,13 +1,13 @@
 import hashlib
 import json
-import logging
 import os
 import time
+import warnings
 import xml.etree.ElementTree as ET
 
 from flask import request, Response
 
-logger = logging.getLogger(__name__)
+
 
 
 class WechatService:
@@ -41,16 +41,16 @@ class WechatService:
 
         if echostr and signature and timestamp and nonce:
             if self._verify_signature(timestamp, nonce, signature):
-                logger.info(f"[WechatService GET] 验证成功, 返回echostr: {echostr}")
+                warnings.warn(f"[WechatService GET] 验证成功, 返回echostr: {echostr}")
                 return Response(echostr, mimetype="text/plain")
             else:
-                logger.warning(
+                warnings.warn(
                     f"[WechatService GET] 签名验证失败, "
                     f"signature={signature}, timestamp={timestamp}, nonce={nonce}"
                 )
                 return Response("signature verify failed", status=403, mimetype="text/plain")
 
-        logger.info("[WechatService GET] 无验证参数, 返回运行状态")
+        warnings.warn("[WechatService GET] 无验证参数, 返回运行状态")
         return Response("wechat bot is running", mimetype="text/plain")
 
     # ------------------------------------------------------------------ #
@@ -63,7 +63,7 @@ class WechatService:
 
             if msg and msg.get("MsgType") == "text":
                 reply_content = self._gen_reply(msg)
-                logger.info(
+                warnings.warn(
                     f"[WechatService POST] 文本消息回复: "
                     f"From={msg.get('FromUserName', '')}, Content={reply_content}"
                 )
@@ -73,10 +73,10 @@ class WechatService:
                 )
             else:
                 msg_type = msg.get('MsgType', 'unknown') if msg else 'empty'
-                logger.info(f"[WechatService POST] 暂不处理, MsgType={msg_type}")
+                warnings.warn(f"[WechatService POST] 暂不处理, MsgType={msg_type}")
                 return "success"
         except Exception as e:
-            logger.error(f"[WechatService POST] 异常: {str(e)}")
+            warnings.warn(f"[WechatService POST] 异常: {str(e)}")
             return str(e)
 
     # ------------------------------------------------------------------ #
