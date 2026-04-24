@@ -63,9 +63,15 @@ class WechatService:
 
     def _handle_post(self):
         try:
+            # 获取请求数据（JSON格式）
             msg = request.get_json()
+            warnings.warn(f"[WechatService POST] 收到消息: {msg}")
+            
+            if not msg:
+                warnings.warn("[WechatService POST] 请求体为空")
+                return "success"
 
-            if msg and msg.get("MsgType") == "text":
+            if msg.get("MsgType") == "text":
                 reply_content = self._gen_reply(msg)
                 warnings.warn(
                     f"[WechatService POST] 文本消息回复: "
@@ -81,7 +87,7 @@ class WechatService:
                 return "success"
         except Exception as e:
             warnings.warn(f"[WechatService POST] 异常: {str(e)}")
-            return str(e)
+            return "success"
 
     # ------------------------------------------------------------------ #
     # 工具方法
