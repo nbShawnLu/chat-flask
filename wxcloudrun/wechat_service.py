@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 
 from flask import request, Response
 
+from wxcloudrun.guest_manager import GuestManager
+
 
 
 
@@ -18,6 +20,8 @@ class WechatService:
     def __init__(self, token: str = None):
         # 优先使用传入的token，否则读取环境变量，最后使用默认值
         self.token = token or os.getenv("WECHAT_TOKEN", "wedding2026")
+        # 初始化宾客信息管理
+        self.guest_manager = GuestManager()
 
     # ------------------------------------------------------------------ #
     # 公共入口
@@ -94,12 +98,16 @@ class WechatService:
         root = ET.fromstring(xml_data)
         return {child.tag: child.text for child in root}
 
-    @staticmethod
-    def _gen_reply(msg: dict) -> str:
+    def _gen_reply(self, msg: dict) -> str:
         """根据消息内容生成回复文本，可在此处扩展业务逻辑"""
         content = msg.get("Content", "").strip()
         
-        # 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
+        # 1. 先检查是否查询桌号（人名匹配）
+        guest_info = self.guest_manager.find_guest(content)
+        if guest_info:
+            return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n\n期待您的到来！"
+        
+        # 2. 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
         location_keywords = ["地址", "宴会厅", "酒店", "位置", "在哪", "哪里", 
                            "交通", "路线", "怎么走", "地点", "地方", "导航", 
                            "地铁", "公交", "停车", "自驾", "打车"]
