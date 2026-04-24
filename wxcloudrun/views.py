@@ -4,6 +4,7 @@ from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
 from wxcloudrun.model import Counters
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
+from wxcloudrun.wechat_service import WechatService
 
 
 @app.route('/')
@@ -12,6 +13,17 @@ def index():
     :return: 返回index页面
     """
     return render_template('index.html')
+
+
+wechat_service = WechatService()
+
+
+@app.route('/wechat', methods=['GET', 'POST'])
+def wechat():
+    """
+    微信消息服务入口：GET用于服务器URL验证，POST用于接收和回复消息
+    """
+    return wechat_service.handle()
 
 
 @app.route('/api/count', methods=['POST'])
