@@ -1,4 +1,5 @@
 import hashlib
+import json
 import os
 import time
 import xml.etree.ElementTree as ET
@@ -55,10 +56,9 @@ class WechatService:
 
     def _handle_post(self):
         try:
-            xml_data = request.get_data(as_text=True)
-            msg = self._parse_xml(xml_data)
+            msg = request.get_json()
 
-            if msg.get("MsgType") == "text":
+            if msg and msg.get("MsgType") == "text":
                 reply_content = self._gen_reply(msg)
                 print(
                     f"[WechatService POST] 文本消息回复: "
@@ -66,10 +66,11 @@ class WechatService:
                 )
                 return Response(
                     self._build_text_reply(msg, reply_content),
-                    mimetype="application/xml",
+                    mimetype="application/json",
                 )
             else:
-                print(f"[WechatService POST] 暂不处理, MsgType={msg.get('MsgType', 'unknown')}")
+                msg_type = msg.get('MsgType', 'unknown') if msg else 'empty'
+                print(f"[WechatService POST] 暂不处理, MsgType={msg_type}")
                 return "success"
         except Exception as e:
             print(f"[WechatService POST] 异常: {str(e)}")
@@ -86,7 +87,7 @@ class WechatService:
 
     @staticmethod
     def _parse_xml(xml_data: str) -> dict:
-        """将微信推送的XML消息解析为字典"""
+        """将微信推送的XML消息解析为字典（保留以兼容旧格式）"""
         root = ET.fromstring(xml_data)
         return {child.tag: child.text for child in root}
 
@@ -97,13 +98,11 @@ class WechatService:
 
     @staticmethod
     def _build_text_reply(msg: dict, content: str) -> str:
-        """构造文本类型的XML回复报文"""
-        return (
-            "<xml>"
-            f"<ToUserName><![CDATA[{msg.get('FromUserName', '')}]]></ToUserName>"
-            f"<FromUserName><![CDATA[{msg.get('ToUserName', '')}]]></FromUserName>"
-            f"<CreateTime>{int(time.time())}</CreateTime>"
-            "<MsgType><![CDATA[text]]></MsgType>"
-            f"<Content><![CDATA[{content}]]></Content>"
-            "</xml>"
-        )
+        """构造文本类型的JSON回复报文"""
+        return json.dumps({
+            "ToUserName": msg.get("FromUserName", ""),
+            "FromUserName": msg.get("ToUserName", ""),
+            "CreateTime": int(time.time()),
+            "MsgType": "text",
+            "Content": content,
+        }, ensure_ascii=False)
