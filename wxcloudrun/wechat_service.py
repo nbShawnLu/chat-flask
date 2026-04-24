@@ -97,6 +97,22 @@ class WechatService:
     @staticmethod
     def _gen_reply(msg: dict) -> str:
         """根据消息内容生成回复文本，可在此处扩展业务逻辑"""
+        content = msg.get("Content", "").strip()
+        
+        # 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
+        location_keywords = ["地址", "宴会厅", "酒店", "位置", "在哪", "哪里", 
+                           "交通", "路线", "怎么走", "地点", "地方", "导航", 
+                           "地铁", "公交", "停车", "自驾", "打车"]
+        
+        # 检查用户消息是否包含位置相关关键词
+        if any(keyword in content for keyword in location_keywords):
+            return """📍 杭州黄龙饭店 地址: 西湖区曙光路120号
+🚇 地铁: 3号线黄龙洞站A2口,步行约1分钟
+🚌 公交: 浙大附中站(16/28/82/87/89路等)
+🚗 自驾: 导航"杭州黄龙饭店",酒店配有停车场
+🚕 打车: 目的地搜索"杭州黄龙饭店"即可
+期待您的到来!"""
+        
         return "你好，欢迎参加我们的婚礼！"
 
     @staticmethod
