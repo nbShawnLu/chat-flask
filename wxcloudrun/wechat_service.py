@@ -117,7 +117,7 @@ class WechatService:
         # 1. 先检查是否查询桌号（人名匹配）
         guest_info = self.guest_manager.find_guest(content)
         if guest_info:
-            return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n\n期待您的到来！"
+            return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n感谢您的到来！"
         
         # 2. 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
         location_keywords = ["地址", "宴会厅", "酒店", "位置", "在哪", "哪里", 
