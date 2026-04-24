@@ -48,14 +48,24 @@ class GuestManager:
         if not message:
             return None
         
+        # 清理不可见字符（保留中文字符、英文字母、数字和常见标点）
+        import re
+        # 移除所有空白字符（空格、换行、制表符等）
+        message_clean = re.sub(r'\s+', '', message)
+        # 移除零宽字符和其他不可见Unicode字符
+        message_clean = re.sub(r'[\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]', '', message_clean)
+        
+        message_stripped = message_clean.strip()
+        if not message_stripped:
+            return None
+        
         # 精确匹配优先（消息内容完全等于姓名）
-        message_stripped = message.strip()
         if message_stripped in self.guest_dict:
             return {"name": message_stripped, "table": self.guest_dict[message_stripped]}
         
         # 遍历所有宾客姓名，检查是否包含在消息中（名字一般不超过3个字）
         for name, table in self.guest_dict.items():
-            if len(name) <= 4 and name in message:  # 最多4个字的名字（含复姓）
+            if len(name) <= 4 and name in message_stripped:  # 最多4个字的名字（含复姓）
                 return {"name": name, "table": table}
         
         return None
