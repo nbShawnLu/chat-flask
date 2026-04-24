@@ -73,6 +73,12 @@ class WechatService:
 
             if msg.get("MsgType") == "text":
                 reply_content = self._gen_reply(msg)
+                
+                # 如果没有生成回复内容，直接返回success
+                if reply_content is None:
+                    warnings.warn(f"[WechatService POST] 无匹配回复, Content={msg.get('Content', '')}")
+                    return "success"
+                
                 warnings.warn(
                     f"[WechatService POST] 文本消息回复: "
                     f"From={msg.get('FromUserName', '')}, Content={reply_content}"
@@ -128,7 +134,8 @@ class WechatService:
 🚕 打车: 目的地搜索"杭州黄龙饭店"即可
 期待您的到来!"""
         
-        return "你好，欢迎参加我们的婚礼！"
+        # 没有匹配到任何内容，返回None
+        return None
 
     @staticmethod
     def _build_text_reply(msg: dict, content: str) -> str:
