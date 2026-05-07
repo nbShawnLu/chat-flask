@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from flask import request, Response
 
 from wxcloudrun.guest_manager import GuestManager
+from wxcloudrun.timeline import TimelineManager
 
 
 
@@ -22,6 +23,8 @@ class WechatService:
         self.token = token or os.getenv("WECHAT_TOKEN", "wedding2026")
         # 初始化宾客信息管理
         self.guest_manager = GuestManager()
+        # 初始化时间线查询
+        self.timeline_manager = TimelineManager()
 
     # ------------------------------------------------------------------ #
     # 公共入口
@@ -119,7 +122,12 @@ class WechatService:
         if guest_info:
             return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n感谢您的到来！"
         
-        # 2. 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
+        # 2. 时间线位置查询（新郎/新娘在哪）
+        timeline_reply = self.timeline_manager.query(content)
+        if timeline_reply:
+            return timeline_reply
+
+        # 3. 关键词匹配：地址、宴会厅、酒店、位置、在哪、哪里、交通等
         location_keywords = ["地址", "宴会厅", "酒店", "位置", "在哪", "哪里", 
                            "交通", "路线", "怎么走", "地点", "地方", "导航", 
                            "地铁", "公交", "停车", "自驾", "打车"]
