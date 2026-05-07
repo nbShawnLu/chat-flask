@@ -6,7 +6,7 @@
 """
 
 import re
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 
 # ------------------------------------------------------------------ #
@@ -213,8 +213,8 @@ class TimelineManager:
                 pass  # 12点 = 中午12点
             return hour * 60 + minute
 
-        # 模式4：HH:MM 格式
-        m = re.search(r'(\d{1,2}):(\d{2})', msg)
+        # 模式4：HH:MM / HH：MM 格式（支持半角/全角冒号）
+        m = re.search(r'(\d{1,2})[：:](\d{2})', msg)
         if m:
             hour = int(m.group(1))
             minute = int(m.group(2))
@@ -255,15 +255,20 @@ class TimelineManager:
         if role is None:
             return None
 
-        query_minutes = self._parse_query_time(message)
-        if query_minutes is None:
-            # 使用当前时间
-            now = datetime.now()
-            query_minutes = now.hour * 60 + now.minute
-
         # 查找时间线
         timeline = self.timeline[role]
         role_label = "新娘" if role == "bride" else "新郎"
+
+        query_minutes = self._parse_query_time(message)
+        is_now_query = query_minutes is None  # 是否为"现在"查询
+        not_wedding_day = False
+        if is_now_query:
+            # "现在"查询：使用当前时间，非婚礼当天加提示
+            now = datetime.now()
+            query_minutes = now.hour * 60 + now.minute
+            wedding_date = date(2026, 5, 16)
+            if date.today() != wedding_date:
+                not_wedding_day = True
 
         # 找到查询时间点所在的时间段
         matched_entry = None
@@ -291,20 +296,24 @@ class TimelineManager:
         # 判断是否在移动中
         is_transit = location.startswith("前往")
 
+        # 位置措辞："现在在" vs "8:00在"
+        loc_prefix = f"{role_label}现在在{location}" if is_now_query else f"{role_label}{time_display}在{location}"
+
         if is_transit:
             dest = location[2:]  # 去掉"前往"
+            transit_status = "在途中🚗" if is_now_query else f"{time_display}在途中🚗"
             if next_entry:
                 reply = (
                     f"{role_label}{entry_time}出发{dest}，"
                     f"预计{next_entry['time']}到达，"
-                    f"当前在途中🚗"
+                    f"{transit_status}"
                 )
             else:
-                reply = f"{role_label}{entry_time}出发{dest}，当前在途中🚗"
+                reply = f"{role_label}{entry_time}出发{dest}，{transit_status}"
         else:
             # 构建活动描述
             time_prefix = f"从{entry_time}开始" if entry_time != time_display else f"在{entry_time}"
-            reply = f"{role_label}现在在{location}，{time_prefix}{event}"
+            reply = f"{loc_prefix}，{time_prefix}{event}"
             if detail:
                 reply += f"（{detail}）"
             # 如果有下一个节点，提示接下来的安排
@@ -313,4 +322,6 @@ class TimelineManager:
                 if next_entry["location"] != location:
                     reply += f"（{next_entry['location']}）"
 
-        return reply
+        # 非婚礼当天加提示前缀
+        prefix = "（今天不是婚礼日，以下为5月16日同时间段安排）\n" if not_wedding_day else ""
+        return prefix + reply

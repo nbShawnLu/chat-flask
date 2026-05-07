@@ -117,10 +117,15 @@ class WechatService:
         """根据消息内容生成回复文本，可在此处扩展业务逻辑"""
         content = msg.get("Content", "").strip()
         
-        # 1. 先检查是否查询桌号（人名匹配）
-        guest_info = self.guest_manager.find_guest(content)
-        if guest_info:
-            return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n感谢您的到来！"
+        # 角色关键词：包含这些词时走时间线查询，跳过桌号查询
+        role_keywords = ["新郎", "新娘", "老公", "老婆", "男方", "女方"]
+        has_role = any(kw in content for kw in role_keywords)
+
+        # 1. 先检查是否查询桌号（人名匹配），但含角色关键词时跳过
+        if not has_role:
+            guest_info = self.guest_manager.find_guest(content)
+            if guest_info:
+                return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n感谢您的到来！"
         
         # 2. 时间线位置查询（新郎/新娘在哪）
         timeline_reply = self.timeline_manager.query(content)
