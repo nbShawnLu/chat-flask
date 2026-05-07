@@ -6,8 +6,11 @@
 """
 
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from typing import Optional
+
+# 北京时间 UTC+8
+_BEIJING_TZ = timezone(timedelta(hours=8))
 
 # ------------------------------------------------------------------ #
 # 时间线数据
@@ -15,23 +18,23 @@ from typing import Optional
 
 # 新娘时间线
 BRIDE_TIMELINE = [
-    {"time": "05:30", "event": "新娘起床", "location": "新娘家（钱潮府）",
+    {"time": "05:30", "event": "新娘起床", "location": "新娘家（玉润钱潮府）",
      "detail": "起床洗漱敷面膜，吃早餐"},
-    {"time": "06:00", "event": "化妆师到达", "location": "新娘家（钱潮府）",
+    {"time": "06:00", "event": "化妆师到达", "location": "新娘家（玉润钱潮府）",
      "detail": "新娘开始新中式造型，约2h"},
-    {"time": "07:00", "event": "伴娘到达", "location": "新娘家（钱潮府）",
+    {"time": "07:00", "event": "伴娘到达", "location": "新娘家（玉润钱潮府）",
      "detail": "自行底妆，化妆师辅助细节，管家协助换伴娘服"},
-    {"time": "07:50", "event": "摄影摄像/管家到达", "location": "新娘家（钱潮府）",
+    {"time": "07:50", "event": "摄影摄像/管家到达", "location": "新娘家（玉润钱潮府）",
      "detail": "拍静物素材，管家归整物料，核对堵门游戏"},
-    {"time": "08:20", "event": "新中式拍摄", "location": "新娘家（钱潮府）",
+    {"time": "08:20", "event": "新中式拍摄", "location": "新娘家（玉润钱潮府）",
      "detail": "与伴娘拍摄，与父母合影，录制出嫁前素材"},
-    {"time": "09:00", "event": "堵门游戏", "location": "新娘家（钱潮府）",
+    {"time": "09:00", "event": "堵门游戏", "location": "新娘家（玉润钱潮府）",
      "detail": "亲友堵门，玩堵门游戏3~4个"},
-    {"time": "09:28", "event": "献捧花·穿婚鞋", "location": "新娘家（钱潮府）",
+    {"time": "09:28", "event": "献捧花·穿婚鞋", "location": "新娘家（玉润钱潮府）",
      "detail": "新郎单膝下跪献捧花、告白，穿婚鞋"},
-    {"time": "09:38", "event": "敬茶仪式", "location": "新娘家（钱潮府）",
+    {"time": "09:38", "event": "敬茶仪式", "location": "新娘家（玉润钱潮府）",
      "detail": "新郎给新娘父母敬茶改口，拍全家福"},
-    {"time": "09:50", "event": "新娘出门", "location": "新娘家（钱潮府）",
+    {"time": "09:50", "event": "新娘出门", "location": "新娘家（玉润钱潮府）",
      "detail": "牵手出门，放礼炮*6，告别父母"},
     {"time": "10:08", "event": "出发去新郎家", "location": "前往新郎家（潮展云起）",
      "detail": "车队出发前往新郎家"},
@@ -85,17 +88,17 @@ GROOM_TIMELINE = [
      "detail": "车辆装饰完毕，等待新郎和伴郎"},
     {"time": "08:08", "event": "准备出发", "location": "新郎家（潮展云起）",
      "detail": "分发喜烟喜糖，拍婚车出发镜头，准备出发接亲"},
-    {"time": "08:28", "event": "出发接亲", "location": "前往新娘家（钱潮府）",
+    {"time": "08:28", "event": "出发接亲", "location": "前往新娘家（玉润钱潮府）",
      "detail": "男方素材拍摄完毕，出发前往新娘家"},
-    {"time": "08:50", "event": "到达新娘家", "location": "新娘家（钱潮府）",
+    {"time": "08:50", "event": "到达新娘家", "location": "新娘家（玉润钱潮府）",
      "detail": "新郎伴郎到达，拍下车镜头，上楼堵门"},
-    {"time": "09:00", "event": "堵门游戏", "location": "新娘家（钱潮府）",
+    {"time": "09:00", "event": "堵门游戏", "location": "新娘家（玉润钱潮府）",
      "detail": "伴团亲友堵门，玩堵门游戏3~4个"},
-    {"time": "09:28", "event": "献捧花·穿婚鞋", "location": "新娘家（钱潮府）",
+    {"time": "09:28", "event": "献捧花·穿婚鞋", "location": "新娘家（玉润钱潮府）",
      "detail": "新郎单膝下跪献捧花、告白，给新娘穿婚鞋"},
-    {"time": "09:38", "event": "敬茶仪式", "location": "新娘家（钱潮府）",
+    {"time": "09:38", "event": "敬茶仪式", "location": "新娘家（玉润钱潮府）",
      "detail": "新郎给新娘父母敬茶改口，拍全家福"},
-    {"time": "09:50", "event": "新娘出门", "location": "新娘家（钱潮府）",
+    {"time": "09:50", "event": "新娘出门", "location": "新娘家（玉润钱潮府）",
      "detail": "牵手出门，放礼炮*6，告别父母"},
     {"time": "10:08", "event": "出发回新郎家", "location": "前往新郎家（潮展云起）",
      "detail": "车队出发回新郎家"},
@@ -263,11 +266,11 @@ class TimelineManager:
         is_now_query = query_minutes is None  # 是否为"现在"查询
         not_wedding_day = False
         if is_now_query:
-            # "现在"查询：使用当前时间，非婚礼当天加提示
-            now = datetime.now()
+            # "现在"查询：使用北京时间，非婚礼当天加提示
+            now = datetime.now(_BEIJING_TZ)
             query_minutes = now.hour * 60 + now.minute
             wedding_date = date(2026, 5, 16)
-            if date.today() != wedding_date:
+            if now.date() != wedding_date:
                 not_wedding_day = True
 
         # 找到查询时间点所在的时间段
