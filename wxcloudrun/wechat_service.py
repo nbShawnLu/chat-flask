@@ -125,7 +125,18 @@ class WechatService:
         if not has_role:
             guest_info = self.guest_manager.find_guest(content)
             if guest_info:
-                return f"{guest_info['name']}您好！\n您的桌号是: {guest_info['table']}桌\n感谢您的到来！"
+                name = guest_info['name']
+                table = guest_info['table']
+                suffix = guest_info.get('suffix')
+
+                if suffix:
+                    suffix_desc = self.guest_manager._get_suffix_desc(suffix)
+                    reply = f"{name}您好！\n{suffix_desc}的桌号是: {table}桌"
+                else:
+                    reply = f"{name}您好！\n您的桌号是: {table}桌"
+
+                reply += "\n感谢您的到来！"
+                return reply
         
         # 2. 时间线位置查询（新郎/新娘在哪）
         timeline_reply = self.timeline_manager.query(content)
