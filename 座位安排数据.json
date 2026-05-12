@@ -1,0 +1,200 @@
+{
+  "0": {
+    "number": "2",
+    "label": "长辈桌",
+    "members": "舅公、大嬷嬷、二嬷嬷、姑姑、翠英、父母",
+    "isMain": false
+  },
+  "1": {
+    "number": "3",
+    "label": "外公家桌",
+    "isMain": false,
+    "members": "外公、大外婆、小外公、大舅婆"
+  },
+  "2": {
+    "number": "5",
+    "label": "舅舅桌",
+    "members": "舅舅全家、史渭森、志峰、波波全家",
+    "isMain": false
+  },
+  "3": {
+    "number": "1",
+    "label": "主桌",
+    "members": "新郎、新娘、伴郎、伴娘",
+    "isMain": true
+  },
+  "4": {
+    "number": "10",
+    "label": "舅婆桌",
+    "isMain": false,
+    "members": "二舅婆、鲍勇舅舅"
+  },
+  "5": {
+    "number": "11",
+    "label": "小外婆桌",
+    "isMain": false,
+    "members": "小外婆、鲍勇东舅舅"
+  },
+  "6": {
+    "number": "12",
+    "label": "阿姨舅舅桌",
+    "isMain": false,
+    "members": "陈波阿姨、张婷婷、陈恩舅舅、张豪"
+  },
+  "7": {
+    "number": "15",
+    "label": "朱家桌",
+    "isMain": false,
+    "members": "朱静芬、朱静、冬冬、静刚"
+  },
+  "8": {
+    "number": "20",
+    "label": "父母朋友A",
+    "isMain": false,
+    "members": "宋亚平、毛裕谷、张永武、许德义、忻亚平、戎富东"
+  },
+  "9": {
+    "number": "21",
+    "label": "父母朋友B",
+    "isMain": false,
+    "members": "鲍佩红、朱吉龙、孙建芬、石兆平、陈亚妹、严翠珍、石晓颖"
+  },
+  "10": {
+    "number": "22",
+    "label": "女方同学",
+    "members": "戚老师夫妇、李巍夫妇、柳晓、朱晔东、姚知群、周群、李真、徐伟",
+    "isMain": false
+  },
+  "11": {
+    "number": "23",
+    "label": "高中同学&小学",
+    "members": "戴妍妍、孙珂扬、董智东、关盛、林天韵",
+    "isMain": false
+  },
+  "12": {
+    "number": "29",
+    "label": "本科老乡&朋友",
+    "isMain": false,
+    "members": "陈峰、张帆、狗翔、土鳖鱼、冯文竺、陈炳奇"
+  },
+  "13": {
+    "number": "30",
+    "label": "初中&老师",
+    "members": "邬婉婷、官宾宾、张文武、章强父子",
+    "isMain": false
+  },
+  "14": {
+    "number": "31",
+    "label": "女方同学",
+    "members": "胡晓强、孙俊、范学军、张英豪、梁卫、陶晓、余洁、倪吉安、徐冰、陶萍",
+    "isMain": false
+  },
+  "15": {
+    "number": "32",
+    "label": "本硕&同事",
+    "members": "李刚、张健夫妇、卢俊宇、张杰、梁韬、张波",
+    "isMain": false
+  },
+  "16": {
+    "number": "6",
+    "label": "女方亲戚",
+    "members": "徐浩良、陈履理、章宏夫妇、章杰夫妇、徐萌全家",
+    "isMain": false
+  },
+  "17": {
+    "number": "16",
+    "label": "女方朋友",
+    "members": "储晓军夫妇、骆建华夫妇、屠熠林夫妇、吴一晖夫妇、楼胤奇父女",
+    "isMain": false
+  },
+  "18": {
+    "number": "25",
+    "label": "女方朋友",
+    "members": "杨献民全家、钟心明、周进琪夫妇、叶建红夫妇、金吉生夫妇",
+    "isMain": false
+  },
+  "19": {
+    "number": "33",
+    "label": "女方朋友",
+    "members": "周海、邵宏伟、熊立军、刘滨、陆富、来蒿、沈陶然、许俊杰、刘晨、杨荣伟",
+    "isMain": false
+  },
+  "20": {
+    "number": "7",
+    "label": "女方朋友",
+    "members": "储根荣、林志宏、边卫跃夫妇、赵晓伟夫妇、董国权夫妇、王虹夫妇",
+    "isMain": false
+  },
+  "21": {
+    "number": "17",
+    "label": "女方朋友",
+    "members": "胡建祥、陈炎夫妇、胡亮夫妇、王苏华夫妇、沈俊全家",
+    "isMain": false
+  },
+  "22": {
+    "number": "26",
+    "label": "女方朋友",
+    "members": "项传裕、李军、孙美文、杨苏杭、姚建强、高波夫妇、何捷、林兴积、縢华东",
+    "isMain": false
+  },
+  "23": {
+    "number": "35",
+    "label": "女方朋友",
+    "members": "袁秋飞全家、沈卓岚夫妇、刘琪夫妇、余国友夫妇",
+    "isMain": false
+  },
+  "24": {
+    "number": "8",
+    "label": "女方亲戚",
+    "members": "张天益全家、张持平全家",
+    "isMain": false
+  },
+  "25": {
+    "number": "18",
+    "label": "女方朋友",
+    "members": "李甫棒夫妇、张洪涛夫妇、沈亚明夫妇、司广臣全家",
+    "isMain": false
+  },
+  "26": {
+    "number": "27",
+    "label": "女方朋友",
+    "members": "王雯雯夫妇、庄亚玲夫妇、俞解明夫妇、江山全家、宣卫强",
+    "isMain": false
+  },
+  "27": {
+    "number": "36",
+    "label": "女方朋友",
+    "members": "章健全家、高丹忱夫妇、李海学夫妇、沈燕飞、沈继中、谢春娟",
+    "isMain": false
+  },
+  "28": {
+    "number": "9",
+    "label": "女方亲戚",
+    "members": "张新华全家、俞敬元全家",
+    "isMain": false
+  },
+  "29": {
+    "number": "19",
+    "label": "女方亲戚",
+    "members": "张守和全家、马一飞全家、彭芸夫妇",
+    "isMain": false
+  },
+  "30": {
+    "number": "28",
+    "label": "女方亲戚",
+    "members": "徐雄伟全家、徐丽娟全家、徐佩娟、汪钰昕",
+    "isMain": false
+  },
+  "31": {
+    "number": "37",
+    "label": "女方亲戚",
+    "members": "章敏仁夫妇、章晓春全家、章敏信全家",
+    "isMain": false
+  },
+  "32": {
+    "number": "38",
+    "label": "女方亲戚",
+    "members": "章敏华夫妇、许枫全家、章费维全家、陈建萍母女",
+    "isMain": false
+  }
+}
