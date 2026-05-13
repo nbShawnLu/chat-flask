@@ -1,8 +1,8 @@
 {
   "0": {
     "number": "2",
-    "label": "长辈桌",
-    "members": "舅公、大嬷嬷、二嬷嬷、姑姑、翠英、父母",
+    "label": "舅舅桌",
+    "members": "舅舅全家、史渭森、志峰、波波全家",
     "isMain": false
   },
   "1": {
@@ -13,8 +13,8 @@
   },
   "2": {
     "number": "5",
-    "label": "舅舅桌",
-    "members": "舅舅全家、史渭森、志峰、波波全家",
+    "label": "长辈桌",
+    "members": "舅公、大嬷嬷、二嬷嬷、姑姑、翠英、父母",
     "isMain": false
   },
   "3": {
@@ -25,39 +25,39 @@
   },
   "4": {
     "number": "10",
-    "label": "舅婆桌",
-    "isMain": false,
-    "members": "二舅婆、鲍勇舅舅"
-  },
-  "5": {
-    "number": "11",
-    "label": "小外婆桌",
-    "isMain": false,
-    "members": "小外婆、鲍勇东舅舅"
-  },
-  "6": {
-    "number": "12",
-    "label": "阿姨舅舅桌",
-    "isMain": false,
-    "members": "陈波阿姨、张婷婷、陈恩舅舅、张豪"
-  },
-  "7": {
-    "number": "15",
     "label": "朱家桌",
     "isMain": false,
     "members": "朱静芬、朱静、冬冬、静刚"
   },
+  "5": {
+    "number": "11",
+    "label": "阿姨舅舅桌",
+    "isMain": false,
+    "members": "陈波阿姨、张婷婷、陈恩舅舅、张豪"
+  },
+  "6": {
+    "number": "12",
+    "label": "小外婆桌",
+    "isMain": false,
+    "members": "小外婆、鲍勇东舅舅"
+  },
+  "7": {
+    "number": "15",
+    "label": "舅婆桌",
+    "isMain": false,
+    "members": "二舅婆、鲍勇舅舅"
+  },
   "8": {
     "number": "20",
-    "label": "父母朋友A",
-    "isMain": false,
-    "members": "宋亚平、毛裕谷、张永武、许德义、忻亚平、戎富东"
+    "label": "父母朋友B",
+    "members": "鲍佩红、朱吉龙、孙建芬、石兆平、陈亚妹、严翠珍、石晓颖、忻亚平、戎富东",
+    "isMain": false
   },
   "9": {
     "number": "21",
-    "label": "父母朋友B",
-    "isMain": false,
-    "members": "鲍佩红、朱吉龙、孙建芬、石兆平、陈亚妹、严翠珍、石晓颖"
+    "label": "父母朋友A",
+    "members": "董健、宋亚平、毛裕谷、张永武、许德义",
+    "isMain": false
   },
   "10": {
     "number": "22",
@@ -67,20 +67,20 @@
   },
   "11": {
     "number": "23",
-    "label": "高中同学&小学",
-    "members": "戴妍妍、孙珂扬、董智东、关盛、林天韵",
+    "label": "初中&老师",
+    "members": "邬婉婷、官宾宾、张文武、章强父子",
     "isMain": false
   },
   "12": {
     "number": "29",
-    "label": "本科老乡&朋友",
+    "label": "高中同学&小学",
     "isMain": false,
-    "members": "陈峰、张帆、狗翔、土鳖鱼、冯文竺、陈炳奇"
+    "members": "戴妍妍、孙珂扬、董智东、关盛、林天韵"
   },
   "13": {
     "number": "30",
-    "label": "初中&老师",
-    "members": "邬婉婷、官宾宾、张文武、章强父子",
+    "label": "本科老乡&朋友",
+    "members": "陈峰、张帆、狗翔、土鳖鱼、冯文竺、陈炳奇",
     "isMain": false
   },
   "14": {
