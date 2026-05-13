@@ -27,12 +27,11 @@ class GuestManager:
     def _load_guests(self, json_path: str = None):
         """从座位安排数据JSON加载宾客信息"""
         try:
-            # 默认路径：项目根目录下的座位安排数据.json
+            # 默认路径：wxcloudrun目录下的seating_data.json
             if json_path is None:
                 json_path = os.path.join(
                     os.path.dirname(__file__),
-                    "..",
-                    "座位安排数据.json"
+                    "seating_data.json"
                 )
 
             if not Path(json_path).exists():
