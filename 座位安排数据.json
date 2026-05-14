@@ -67,20 +67,20 @@
   },
   "11": {
     "number": "23",
-    "label": "初中&老师",
-    "members": "邬婉婷、官宾宾",
+    "label": "初中&本科同学",
+    "members": "邬婉婷、官宾宾、陈峰、张帆",
     "isMain": false
   },
   "12": {
     "number": "29",
-    "label": "高中同学&小学",
-    "isMain": false,
-    "members": "戴妍妍、孙珂扬、董智东、关盛、林天韵"
+    "label": "朋友",
+    "members": "梁易扬、钱运佳、冯文竺、陈炳奇",
+    "isMain": false
   },
   "13": {
     "number": "30",
-    "label": "本科老乡&朋友",
-    "members": "陈峰、张帆、狗翔、土鳖鱼、冯文竺、陈炳奇",
+    "label": "高中&小学同学",
+    "members": "戴妍妍、孙珂扬、董智东、关盛、林天韵",
     "isMain": false
   },
   "14": {
