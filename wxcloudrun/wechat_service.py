@@ -66,8 +66,8 @@ class WechatService:
 
     def _handle_post(self):
         try:
-            # 获取请求数据（JSON格式）
-            msg = request.get_json()
+            # 获取请求数据（JSON格式，force=True忽略Content-Type限制）
+            msg = request.get_json(force=True, silent=True)
             warnings.warn(f"[WechatService POST] 收到消息: {msg}")
             
             if not msg:
